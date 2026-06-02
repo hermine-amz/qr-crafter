@@ -181,7 +181,7 @@ export default function LandingPage() {
         };
     }, []);
 
-    const whatsappNumber = "22991566846";
+    const whatsappNumber = "22969473921";
     const activeColor = CARD_COLORS[selectedColorIndex];
     const buttonColor = activeColor.hex;
     const buttonTextColor = activeColor.hexText || 'white';
@@ -1238,7 +1238,7 @@ export default function LandingPage() {
                         
                         {/* CTA Sans Carte */}
                         <a
-                            href={`https://wa.me/22991566846?text=${encodeURIComponent('Bonjour NFCrafter, je souhaite créer mon Profil Digital Unique sans carte à 5.000f.')}`}
+                            href={`https://wa.me/22969473921?text=${encodeURIComponent('Bonjour NFCrafter, je souhaite créer mon Profil Digital Unique sans carte à 5.000f.')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
@@ -1627,7 +1627,7 @@ export default function LandingPage() {
                                 </p>
                             </div>
 
-                            <a href={`https://wa.me/22991566846?text=Bonjour%20NFCrafter%2C%20je%20souhaite%20discuter%20de%20la%20cr%C3%A9ation%20d'un%20site%20web%20sur%20mesure`} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#25D366', color: 'white', padding: '16px 32px', borderRadius: '12px', fontWeight: '800', fontSize: '15px', textDecoration: 'none', transition: 'all 0.3s ease' }}>
+                            <a href={`https://wa.me/22969473921?text=Bonjour%20NFCrafter%2C%20je%20souhaite%20discuter%20de%20la%20cr%C3%A9ation%20d'un%20site%20web%20sur%20mesure`} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#25D366', color: 'white', padding: '16px 32px', borderRadius: '12px', fontWeight: '800', fontSize: '15px', textDecoration: 'none', transition: 'all 0.3s ease' }}>
                                 En discuter sur WhatsApp
                             </a>
                         </div>
@@ -1732,7 +1732,7 @@ export default function LandingPage() {
                     <div style={{ marginTop: '48px', textAlign: 'center', background: 'rgba(26,18,101,0.03)', border: '1px solid rgba(26,18,101,0.08)', borderRadius: '20px', padding: '32px 24px' }}>
                         <h3 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: '800', color: '#0F172A' }}>Vous avez une autre question ?</h3>
                         <p style={{ color: '#64748B', fontSize: '14px', margin: '0 0 20px 0' }}>Notre équipe répond sur WhatsApp.</p>
-                        <a href={`https://wa.me/22991566846?text=Bonjour%20NFCrafter%2C%20j'ai%20une%20question%20svp`} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#25D366', color: 'white', padding: '14px 28px', borderRadius: '12px', fontWeight: '800', fontSize: '14px', textDecoration: 'none', boxShadow: '0 8px 20px rgba(37,211,102,0.25)' }}>
+                        <a href={`https://wa.me/22969473921?text=Bonjour%20NFCrafter%2C%20j'ai%20une%20question%20svp`} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#25D366', color: 'white', padding: '14px 28px', borderRadius: '12px', fontWeight: '800', fontSize: '14px', textDecoration: 'none', boxShadow: '0 8px 20px rgba(37,211,102,0.25)' }}>
                             Poser ma question sur WhatsApp
                         </a>
                     </div>
@@ -1805,7 +1805,7 @@ export default function LandingPage() {
                 pointerEvents: scrollY > 200 ? 'auto' : 'none'
             }}>
                 <a
-                    href="https://wa.me/22991566846"
+                    href="https://wa.me/22969473921"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Nous contacter sur WhatsApp"
