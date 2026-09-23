@@ -1,0 +1,27 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # S'exécute automatiquement 2 fois par jour (à 07:00 et 19:00 UTC)
+    - cron: '0 7,19 * * *'
+  # Permet de tester ou déclencher manuellement depuis l'onglet Actions de GitHub
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send keep-alive request
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY2FtYXducWp3YmVna2JkcWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzgyMTUsImV4cCI6MjA5MjIxNDIxNX0.hmq7cxTNFXS418J8Bp6PS_AIlVA_oyF1NddZWrSZHy8' }}" \
+            "https://bgcamawnqjwbegkbdqln.supabase.co/rest/v1/cards?select=card_id&limit=1")
+          
+          echo "Supabase HTTP status: $response"
+          if [ "$response" -ge 200 ] && [ "$response" -lt 400 ]; then
+            echo "Base Supabase active et fonctionnelle !"
+          else
+            echo "Erreur lors du ping de Supabase"
+            exit 1
+          fi

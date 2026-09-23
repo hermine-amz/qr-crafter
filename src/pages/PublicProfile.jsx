@@ -59,54 +59,60 @@ export default function PublicProfile() {
       return;
     }
 
-    const { data: card, error } = await supabase
-      .from('cards')
-      .select('*')
-      .or(`card_id.ilike.${lookupValue},url_slug.ilike.${lookupValue}`)
-      .single()
-      
-    if (error || !card) { setNotFound(true); setLoading(false); return }
+    try {
+      const { data: card, error } = await supabase
+        .from('cards')
+        .select('*')
+        .or(`card_id.ilike.${lookupValue},url_slug.ilike.${lookupValue}`)
+        .single()
+        
+      if (error || !card) { setNotFound(true); setLoading(false); return }
 
-    // URL type → immediate redirect
-    if (card.admin_profile?.qr_type === 'url' && card.admin_profile?.url) {
-      window.location.href = card.admin_profile.url
-      return
+      // URL type → immediate redirect
+      if (card.admin_profile?.qr_type === 'url' && card.admin_profile?.url) {
+        window.location.href = card.admin_profile.url
+        return
+      }
+
+      let merged = {}
+
+      if (card.owner_id) {
+        // Card is activated — load client profile
+        // Use admin_profile as the single source of truth.
+        merged = { ...(card.admin_profile || {}) }
+
+        // Load custom links from DB table
+        const { data: linksData } = await supabase
+          .from('custom_links').select('*')
+          .eq('profile_id', card.owner_id)
+          .order('position', { ascending: true })
+        setCustomLinks(linksData?.length > 0 ? linksData : (merged.customLinks || []))
+      } else if (card.admin_profile && Object.keys(card.admin_profile).length > 0) {
+        // Not yet activated — show admin-filled profile
+        merged = card.admin_profile
+        setCustomLinks(merged.customLinks || [])
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const themeColorOverride = urlParams.get('theme_color');
+      const bgColorOverride = urlParams.get('bg_color');
+
+      if (themeColorOverride) {
+        merged.theme_color = themeColorOverride;
+        merged.primaryColor = themeColorOverride;
+      }
+      if (bgColorOverride) {
+        merged.backgroundColor = bgColorOverride;
+      }
+
+      setProfile(merged)
+      supabase.from('scan_logs').insert({ card_id: card.card_id, user_agent: navigator.userAgent }).then()
+      setLoading(false)
+    } catch (err) {
+      console.error("Failed to load profile:", err)
+      setNotFound(true)
+      setLoading(false)
     }
-
-    let merged = {}
-
-    if (card.owner_id) {
-      // Card is activated — load client profile
-      // Use admin_profile as the single source of truth.
-      merged = { ...(card.admin_profile || {}) }
-
-      // Load custom links from DB table
-      const { data: linksData } = await supabase
-        .from('custom_links').select('*')
-        .eq('profile_id', card.owner_id)
-        .order('position', { ascending: true })
-      setCustomLinks(linksData?.length > 0 ? linksData : (merged.customLinks || []))
-    } else if (card.admin_profile && Object.keys(card.admin_profile).length > 0) {
-      // Not yet activated — show admin-filled profile
-      merged = card.admin_profile
-      setCustomLinks(merged.customLinks || [])
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const themeColorOverride = urlParams.get('theme_color');
-    const bgColorOverride = urlParams.get('bg_color');
-
-    if (themeColorOverride) {
-      merged.theme_color = themeColorOverride;
-      merged.primaryColor = themeColorOverride;
-    }
-    if (bgColorOverride) {
-      merged.backgroundColor = bgColorOverride;
-    }
-
-    setProfile(merged)
-    supabase.from('scan_logs').insert({ card_id: card.card_id, user_agent: navigator.userAgent }).then()
-    setLoading(false)
   }
 
   async function updateProfileInSupabase(updates) {
